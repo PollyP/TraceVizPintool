@@ -1,0 +1,165 @@
+﻿  Microsoft (R) C/C++ Optimizing Compiler Version 19.25.28610.4 for x86
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  cl /c /I"C:\Users\test\Desktop\pin-3.11-97998-g7ecce2dac-msvc-windows\pin-3.11-97998-g7ecce2dac-msvc-windows\source\tools\TraceVizPintool RC\InterestingRoutines" /I"C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um\\" /I..\..\..\extras\crt\include /I..\..\include\pin /I..\..\include\pin\gen /I..\InstLib /I"..\..\..\extras\xed-ia32\include\xed" /I..\..\..\extras\components\include /I..\..\..\extras\stlport\include /I..\..\..\extras /I..\..\..\extras\libstdc++\include /I..\..\..\extras\crt /I"..\..\..\extras\crt\include\arch-x86" /I..\..\..\extras\crt\include\kernel\uapi /I"..\..\..\extras\crt\include\kernel\uapi\asm-x86" /Zi /W3 /WX- /diagnostics:column /Od /Oy- /D TARGET_IA32 /D HOST_IA32 /D TARGET_WINDOWS /D WIN32 /D __PIN__=1 /D PIN_CRT=1 /D __i386__ /D "_WINDOWS_H_PATH_=\"C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um\\\"" /Gm- /MT /GS- /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR- /Fo"Debug\\" /Fd"Debug\vc142.pdb" /Gd /TP /wd4530 /analyze- /FC /errorReport:prompt /GR- /GS- /EHs- /EHa- /FP:strict /Oi- /FIinclude/msvc_compat.h DotGenerator2.cpp InterestingRoutines\CreateProcess.cpp InterestingRoutines\GetProcAddress.cpp InterestingRoutines\InternetOpenURL.cpp InterestingRoutines\LoadLibrary.cpp InterestingRoutines\ShellExecute.cpp InterestingRoutines\URLDownloadToFile.cpp TraceViz.cpp Utils.cpp
+cl : command line warning D9002: ignoring unknown option '/FP:strict'
+  DotGenerator2.cpp
+  CreateProcess.cpp
+C:\Users\test\Desktop\pin-3.11-97998-g7ecce2dac-msvc-windows\pin-3.11-97998-g7ecce2dac-msvc-windows\extras\stlport\include\stl\_limits.h(222,48): warning C4309: 'specialization': truncation of constant value
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\shared\specstrings.h(463,1): warning C4005: '__volatile': macro redefinition
+C:\Users\test\Desktop\pin-3.11-97998-g7ecce2dac-msvc-windows\pin-3.11-97998-g7ecce2dac-msvc-windows\extras\crt\include\sys\cdefs.h(108): message : see previous definition of '__volatile'
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um\winsock.h(118,1): warning C4005: 'timerisset': macro redefinition
+C:\Users\test\Desktop\pin-3.11-97998-g7ecce2dac-msvc-windows\pin-3.11-97998-g7ecce2dac-msvc-windows\extras\crt\include\sys\time.h(49): message : see previous definition of 'timerisset'
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um\winsock.h(121,1): warning C4005: 'timercmp': macro redefinition
+C:\Users\test\Desktop\pin-3.11-97998-g7ecce2dac-msvc-windows\pin-3.11-97998-g7ecce2dac-msvc-windows\extras\crt\include\sys\time.h(54): message : see previous definition of 'timercmp'
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um\winsock.h(122,1): warning C4005: 'timerclear': macro redefinition
+C:\Users\test\Desktop\pin-3.11-97998-g7ecce2dac-msvc-windows\pin-3.11-97998-g7ecce2dac-msvc-windows\extras\crt\include\sys\time.h(46): message : see previous definition of 'timerclear'
+  GetProcAddress.cpp
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\shared\specstrings.h(463,1): warning C4005: '__volatile': macro redefinition
+C:\Users\test\Desktop\pin-3.11-97998-g7ecce2dac-msvc-windows\pin-3.11-97998-g7ecce2dac-msvc-windows\extras\crt\include\sys\cdefs.h(108): message : see previous definition of '__volatile'
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um\winsock.h(118,1): warning C4005: 'timerisset': macro redefinition
+C:\Users\test\Desktop\pin-3.11-97998-g7ecce2dac-msvc-windows\pin-3.11-97998-g7ecce2dac-msvc-windows\extras\crt\include\sys\time.h(49): message : see previous definition of 'timerisset'
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um\winsock.h(121,1): warning C4005: 'timercmp': macro redefinition
+C:\Users\test\Desktop\pin-3.11-97998-g7ecce2dac-msvc-windows\pin-3.11-97998-g7ecce2dac-msvc-windows\extras\crt\include\sys\time.h(54): message : see previous definition of 'timercmp'
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um\winsock.h(122,1): warning C4005: 'timerclear': macro redefinition
+C:\Users\test\Desktop\pin-3.11-97998-g7ecce2dac-msvc-windows\pin-3.11-97998-g7ecce2dac-msvc-windows\extras\crt\include\sys\time.h(46): message : see previous definition of 'timerclear'
+  InternetOpenURL.cpp
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\shared\specstrings.h(463,1): warning C4005: '__volatile': macro redefinition
+C:\Users\test\Desktop\pin-3.11-97998-g7ecce2dac-msvc-windows\pin-3.11-97998-g7ecce2dac-msvc-windows\extras\crt\include\sys\cdefs.h(108): message : see previous definition of '__volatile'
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um\winsock.h(118,1): warning C4005: 'timerisset': macro redefinition
+C:\Users\test\Desktop\pin-3.11-97998-g7ecce2dac-msvc-windows\pin-3.11-97998-g7ecce2dac-msvc-windows\extras\crt\include\sys\time.h(49): message : see previous definition of 'timerisset'
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um\winsock.h(121,1): warning C4005: 'timercmp': macro redefinition
+C:\Users\test\Desktop\pin-3.11-97998-g7ecce2dac-msvc-windows\pin-3.11-97998-g7ecce2dac-msvc-windows\extras\crt\include\sys\time.h(54): message : see previous definition of 'timercmp'
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um\winsock.h(122,1): warning C4005: 'timerclear': macro redefinition
+C:\Users\test\Desktop\pin-3.11-97998-g7ecce2dac-msvc-windows\pin-3.11-97998-g7ecce2dac-msvc-windows\extras\crt\include\sys\time.h(46): message : see previous definition of 'timerclear'
+  LoadLibrary.cpp
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\shared\specstrings.h(463,1): warning C4005: '__volatile': macro redefinition
+C:\Users\test\Desktop\pin-3.11-97998-g7ecce2dac-msvc-windows\pin-3.11-97998-g7ecce2dac-msvc-windows\extras\crt\include\sys\cdefs.h(108): message : see previous definition of '__volatile'
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um\winsock.h(118,1): warning C4005: 'timerisset': macro redefinition
+C:\Users\test\Desktop\pin-3.11-97998-g7ecce2dac-msvc-windows\pin-3.11-97998-g7ecce2dac-msvc-windows\extras\crt\include\sys\time.h(49): message : see previous definition of 'timerisset'
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um\winsock.h(121,1): warning C4005: 'timercmp': macro redefinition
+C:\Users\test\Desktop\pin-3.11-97998-g7ecce2dac-msvc-windows\pin-3.11-97998-g7ecce2dac-msvc-windows\extras\crt\include\sys\time.h(54): message : see previous definition of 'timercmp'
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um\winsock.h(122,1): warning C4005: 'timerclear': macro redefinition
+C:\Users\test\Desktop\pin-3.11-97998-g7ecce2dac-msvc-windows\pin-3.11-97998-g7ecce2dac-msvc-windows\extras\crt\include\sys\time.h(46): message : see previous definition of 'timerclear'
+  ShellExecute.cpp
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\shared\specstrings.h(463,1): warning C4005: '__volatile': macro redefinition
+C:\Users\test\Desktop\pin-3.11-97998-g7ecce2dac-msvc-windows\pin-3.11-97998-g7ecce2dac-msvc-windows\extras\crt\include\sys\cdefs.h(108): message : see previous definition of '__volatile'
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um\winsock.h(118,1): warning C4005: 'timerisset': macro redefinition
+C:\Users\test\Desktop\pin-3.11-97998-g7ecce2dac-msvc-windows\pin-3.11-97998-g7ecce2dac-msvc-windows\extras\crt\include\sys\time.h(49): message : see previous definition of 'timerisset'
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um\winsock.h(121,1): warning C4005: 'timercmp': macro redefinition
+C:\Users\test\Desktop\pin-3.11-97998-g7ecce2dac-msvc-windows\pin-3.11-97998-g7ecce2dac-msvc-windows\extras\crt\include\sys\time.h(54): message : see previous definition of 'timercmp'
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um\winsock.h(122,1): warning C4005: 'timerclear': macro redefinition
+C:\Users\test\Desktop\pin-3.11-97998-g7ecce2dac-msvc-windows\pin-3.11-97998-g7ecce2dac-msvc-windows\extras\crt\include\sys\time.h(46): message : see previous definition of 'timerclear'
+  URLDownloadToFile.cpp
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\shared\specstrings.h(463,1): warning C4005: '__volatile': macro redefinition
+C:\Users\test\Desktop\pin-3.11-97998-g7ecce2dac-msvc-windows\pin-3.11-97998-g7ecce2dac-msvc-windows\extras\crt\include\sys\cdefs.h(108): message : see previous definition of '__volatile'
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um\winsock.h(118,1): warning C4005: 'timerisset': macro redefinition
+C:\Users\test\Desktop\pin-3.11-97998-g7ecce2dac-msvc-windows\pin-3.11-97998-g7ecce2dac-msvc-windows\extras\crt\include\sys\time.h(49): message : see previous definition of 'timerisset'
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um\winsock.h(121,1): warning C4005: 'timercmp': macro redefinition
+C:\Users\test\Desktop\pin-3.11-97998-g7ecce2dac-msvc-windows\pin-3.11-97998-g7ecce2dac-msvc-windows\extras\crt\include\sys\time.h(54): message : see previous definition of 'timercmp'
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um\winsock.h(122,1): warning C4005: 'timerclear': macro redefinition
+C:\Users\test\Desktop\pin-3.11-97998-g7ecce2dac-msvc-windows\pin-3.11-97998-g7ecce2dac-msvc-windows\extras\crt\include\sys\time.h(46): message : see previous definition of 'timerclear'
+  TraceViz.cpp
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\shared\specstrings.h(463,1): warning C4005: '__volatile': macro redefinition
+C:\Users\test\Desktop\pin-3.11-97998-g7ecce2dac-msvc-windows\pin-3.11-97998-g7ecce2dac-msvc-windows\extras\crt\include\sys\cdefs.h(108): message : see previous definition of '__volatile'
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um\winsock.h(118,1): warning C4005: 'timerisset': macro redefinition
+C:\Users\test\Desktop\pin-3.11-97998-g7ecce2dac-msvc-windows\pin-3.11-97998-g7ecce2dac-msvc-windows\extras\crt\include\sys\time.h(49): message : see previous definition of 'timerisset'
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um\winsock.h(121,1): warning C4005: 'timercmp': macro redefinition
+C:\Users\test\Desktop\pin-3.11-97998-g7ecce2dac-msvc-windows\pin-3.11-97998-g7ecce2dac-msvc-windows\extras\crt\include\sys\time.h(54): message : see previous definition of 'timercmp'
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um\winsock.h(122,1): warning C4005: 'timerclear': macro redefinition
+C:\Users\test\Desktop\pin-3.11-97998-g7ecce2dac-msvc-windows\pin-3.11-97998-g7ecce2dac-msvc-windows\extras\crt\include\sys\time.h(46): message : see previous definition of 'timerclear'
+  Utils.cpp
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\shared\specstrings.h(463,1): warning C4005: '__volatile': macro redefinition
+C:\Users\test\Desktop\pin-3.11-97998-g7ecce2dac-msvc-windows\pin-3.11-97998-g7ecce2dac-msvc-windows\extras\crt\include\sys\cdefs.h(108): message : see previous definition of '__volatile'
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um\winsock.h(118,1): warning C4005: 'timerisset': macro redefinition
+C:\Users\test\Desktop\pin-3.11-97998-g7ecce2dac-msvc-windows\pin-3.11-97998-g7ecce2dac-msvc-windows\extras\crt\include\sys\time.h(49): message : see previous definition of 'timerisset'
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um\winsock.h(121,1): warning C4005: 'timercmp': macro redefinition
+C:\Users\test\Desktop\pin-3.11-97998-g7ecce2dac-msvc-windows\pin-3.11-97998-g7ecce2dac-msvc-windows\extras\crt\include\sys\time.h(54): message : see previous definition of 'timercmp'
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um\winsock.h(122,1): warning C4005: 'timerclear': macro redefinition
+C:\Users\test\Desktop\pin-3.11-97998-g7ecce2dac-msvc-windows\pin-3.11-97998-g7ecce2dac-msvc-windows\extras\crt\include\sys\time.h(46): message : see previous definition of 'timerclear'
+  Generating Code...
+     Creating library C:\Users\test\Desktop\pin-3.11-97998-g7ecce2dac-msvc-windows\pin-3.11-97998-g7ecce2dac-msvc-windows\source\tools\TraceVizPintool RC\Debug\TraceVizPintool.lib and object C:\Users\test\Desktop\pin-3.11-97998-g7ecce2dac-msvc-windows\pin-3.11-97998-g7ecce2dac-msvc-windows\source\tools\TraceVizPintool RC\Debug\TraceVizPintool.exp
+crtbeginS.obj : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+DotGenerator2.obj : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+CreateProcess.obj : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+GetProcAddress.obj : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+InternetOpenURL.obj : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+LoadLibrary.obj : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+ShellExecute.obj : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+URLDownloadToFile.obj : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+TraceViz.obj : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+Utils.obj : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(ms_dllcrt.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(my_malloc.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(util.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(pin_client.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(image.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(message.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(knob.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(ins_ia32.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(ins_api_xed_ia32.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(pin_client_replay.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(thread_client.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(symbol_win.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(util_windows.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(swmalloc.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(stat.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(sysfuncs_windows.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(bigarray.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(parser.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(version.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(reg_ia32.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(base_ia32.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(exception.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(stripe.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(ext.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(bbl.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(ins.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(ins_xed_ia32.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(calling_standard_ia32.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(operand_ia32.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(vmtool.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(debugger_client.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(opin_client.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(tls_client.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(child_process_client.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(internal_exception_client.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(pin_jit.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(image_win.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(aoti.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(complexlock.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(rtn.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(app.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(sec.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(img.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(sym.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(edg.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(val.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(chunk.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(rel.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(ins_inits_api_xed_ia32.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(reg_partial_ia32.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(comment.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(ins_syscall_ia32_windows.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(sm_dbginfo.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(sm_ipc.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(sm_client.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(util_unicode_windows.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(tool_mmap.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(cpu_info_ia32.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(cfg.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(ins_map_ia32.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(flags_ia32.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(regset_ia32.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(child_process.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(follow_child_win_probe.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(dll_load_win_probe.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(modules_win.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(elf_windows.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(reg.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(ins_reuse_ia32.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(ipc_client_windows.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(cfg_ia32.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(ipc_common_windows.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+pin.lib(ipc_connection_windows.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+crtbeginS.obj : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+  MyPinTool.vcxproj -> C:\Users\test\Desktop\pin-3.11-97998-g7ecce2dac-msvc-windows\pin-3.11-97998-g7ecce2dac-msvc-windows\source\tools\TraceVizPintool RC\Debug\TraceVizPintool.dll

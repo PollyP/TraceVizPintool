@@ -1,0 +1,23 @@
+﻿  Microsoft (R) C/C++ Optimizing Compiler Version 19.25.28610.4 for x86
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  cl /c /I"C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um\\" /I..\..\..\extras\crt\include /I..\..\include\pin /I..\..\include\pin\gen /I..\InstLib /I"..\..\..\extras\xed-ia32\include\xed" /I..\..\..\extras\components\include /I..\..\..\extras\stlport\include /I..\..\..\extras /I..\..\..\extras\libstdc++\include /I..\..\..\extras\crt /I"..\..\..\extras\crt\include\arch-x86" /I..\..\..\extras\crt\include\kernel\uapi /I"..\..\..\extras\crt\include\kernel\uapi\asm-x86" /Zi /W3 /WX- /diagnostics:column /Od /Oy- /D TARGET_IA32 /D HOST_IA32 /D TARGET_WINDOWS /D WIN32 /D __PIN__=1 /D PIN_CRT=1 /D __i386__ /D "_WINDOWS_H_PATH_=\"C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um\\\"" /Gm- /MT /GS- /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR- /Fo"Debug\\" /Fd"Debug\vc142.pdb" /Gd /TP /wd4530 /analyze- /FC /errorReport:prompt /GR- /GS- /EHs- /EHa- /FP:strict /Oi- /FIinclude/msvc_compat.h DotGenerator2.cpp InterestingRoutines\CreateProcess.cpp InterestingRoutines\GetProcAddress.cpp InterestingRoutines\InternetOpenURL.cpp InterestingRoutines\LoadLibrary.cpp InterestingRoutines\ShellExecute.cpp InterestingRoutines\URLDownloadToFile.cpp TraceViz.cpp Utils.cpp
+cl : command line warning D9002: ignoring unknown option '/FP:strict'
+  DotGenerator2.cpp
+C:\Users\test\Desktop\pin-3.11-97998-g7ecce2dac-msvc-windows\pin-3.11-97998-g7ecce2dac-msvc-windows\source\tools\TraceVizPintool RC\TraceVizPintool\DotGenerator2.cpp : fatal error C1083: Cannot open include file: 'include/msvc_compat.h': No such file or directory
+  CreateProcess.cpp
+C:\Users\test\Desktop\pin-3.11-97998-g7ecce2dac-msvc-windows\pin-3.11-97998-g7ecce2dac-msvc-windows\source\tools\TraceVizPintool RC\TraceVizPintool\InterestingRoutines\CreateProcess.cpp : fatal error C1083: Cannot open include file: 'include/msvc_compat.h': No such file or directory
+  GetProcAddress.cpp
+C:\Users\test\Desktop\pin-3.11-97998-g7ecce2dac-msvc-windows\pin-3.11-97998-g7ecce2dac-msvc-windows\source\tools\TraceVizPintool RC\TraceVizPintool\InterestingRoutines\GetProcAddress.cpp : fatal error C1083: Cannot open include file: 'include/msvc_compat.h': No such file or directory
+  InternetOpenURL.cpp
+C:\Users\test\Desktop\pin-3.11-97998-g7ecce2dac-msvc-windows\pin-3.11-97998-g7ecce2dac-msvc-windows\source\tools\TraceVizPintool RC\TraceVizPintool\InterestingRoutines\InternetOpenURL.cpp : fatal error C1083: Cannot open include file: 'include/msvc_compat.h': No such file or directory
+  LoadLibrary.cpp
+C:\Users\test\Desktop\pin-3.11-97998-g7ecce2dac-msvc-windows\pin-3.11-97998-g7ecce2dac-msvc-windows\source\tools\TraceVizPintool RC\TraceVizPintool\InterestingRoutines\LoadLibrary.cpp : fatal error C1083: Cannot open include file: 'include/msvc_compat.h': No such file or directory
+  ShellExecute.cpp
+C:\Users\test\Desktop\pin-3.11-97998-g7ecce2dac-msvc-windows\pin-3.11-97998-g7ecce2dac-msvc-windows\source\tools\TraceVizPintool RC\TraceVizPintool\InterestingRoutines\ShellExecute.cpp : fatal error C1083: Cannot open include file: 'include/msvc_compat.h': No such file or directory
+  URLDownloadToFile.cpp
+C:\Users\test\Desktop\pin-3.11-97998-g7ecce2dac-msvc-windows\pin-3.11-97998-g7ecce2dac-msvc-windows\source\tools\TraceVizPintool RC\TraceVizPintool\InterestingRoutines\URLDownloadToFile.cpp : fatal error C1083: Cannot open include file: 'include/msvc_compat.h': No such file or directory
+  TraceViz.cpp
+C:\Users\test\Desktop\pin-3.11-97998-g7ecce2dac-msvc-windows\pin-3.11-97998-g7ecce2dac-msvc-windows\source\tools\TraceVizPintool RC\TraceVizPintool\TraceViz.cpp : fatal error C1083: Cannot open include file: 'include/msvc_compat.h': No such file or directory
+  Utils.cpp
+C:\Users\test\Desktop\pin-3.11-97998-g7ecce2dac-msvc-windows\pin-3.11-97998-g7ecce2dac-msvc-windows\source\tools\TraceVizPintool RC\TraceVizPintool\Utils.cpp : fatal error C1083: Cannot open include file: 'include/msvc_compat.h': No such file or directory
+  Generating Code...
