@@ -45,9 +45,10 @@ namespace WINDOWS
 using namespace std;
 
 // test options
+KNOB<UINT32> KnobInactivityTimeout(KNOB_MODE_WRITEONCE, "pintool", "inactivity_timeout", "0", "Exit if no instructions are executed for inactivity_timeout seconds. The default value of 0 disables the inactivity timeout.");
+KNOB<UINT32> KnobMaxInstructions(KNOB_MODE_WRITEONCE, "pintool", "max_instructions", "0", "Exit when n number of instructions are executed. The default value of 0 means there is no maximum");
 KNOB<string> KnobLogFile(KNOB_MODE_WRITEONCE, "pintool", "report_filename", "traceviz.log", "Specify tool output file name");
 KNOB<string> KnobOutputFile(KNOB_MODE_WRITEONCE, "pintool", "trace_dot_filename", "traceviz.gv", "Specify dot output file name");
-KNOB<UINT32> KnobInactivityTimeout(KNOB_MODE_WRITEONCE, "pintool", "inactivity_timeout", "0", "Exit if no instructions are executed for inactivity_timeout seconds. The default value of 0 disables the inactivity timeout.");
 
 // data structures to hold info about instructions that have been instrumented
 struct instrumented_struct
@@ -82,6 +83,7 @@ int last_section_idx = -1;
 UINT64 instruction_counter = 0;
 UINT64 image_load_counter = 0;
 int inactivity_timeout = 0;
+UINT64 max_instructions = 0;
 
 // xdot does not know what to do with lots of clusters (which is how threads are represented). so drop threads > max_threads to keep the output diagram readable
 const int max_threads = 10;
@@ -177,7 +179,7 @@ void inactivity_monitor_thread(void* v) {
 	PIN_ExitApplication(0);
 }
 
-bool should_drop(int tid)
+bool should_drop_this_thread(int tid)
 {
 	return false;
 	if (tid > max_threads)
@@ -349,7 +351,7 @@ static void
 process_interesting_routine_returns(int tid, ADDRINT inst_addr, CONTEXT* ctxt)
 {
 
-	if (should_drop(tid) )
+	if (should_drop_this_thread(tid) )
 	{
 		return;
 	}
@@ -424,9 +426,16 @@ static void
 instruction_analysis(ADDRINT inst_addr, THREADID tid, CONTEXT* ctxt)
 {
 
-	if (should_drop(tid))
+	if (should_drop_this_thread(tid))
 	{
 		return;
+	}
+
+	// exit if user-set instruction limits counter exceeded
+	if (max_instructions && instruction_counter >= max_instructions)
+	{
+		logfile << "Instructions limit exceeded. Exiting application." << endl;
+		PIN_ExitApplication(0);
 	}
 
 	//logfile << "setting last main instr to " << hex << showbase << inst_ptr << endl;
@@ -480,7 +489,7 @@ uncond_instruction_analysis(ADDRINT inst_addr, THREADID tid, ADDRINT target_addr
 static void
 branchorcall_instruction_analysis(ADDRINT inst_addr, THREADID tid, ADDRINT target_addr, CONTEXT* ctxt)
 {
-	if (should_drop(tid))
+	if (should_drop_this_thread(tid))
 	{
 		return;
 	}
@@ -577,6 +586,7 @@ instrument_instructions(INS ins, void*)
 /*********************************************************************************************************************************/
 void fini(int, void*)
 {
+	logfile << "Total number of instructions executed: " << dec << instruction_counter << " (" << hex << showbase << instruction_counter << ")" << endl;
 	logfile << "Exiting application" << endl;
 	dotgen->closeOutputFile();
 }
@@ -605,6 +615,9 @@ main(int argc, char* argv[])
 		return 1;
 	}
 
+	// get the maximum number of instructions to execute
+	max_instructions = KnobMaxInstructions.Value();
+
 	// get the inactivity timeout value
 	inactivity_timeout = KnobInactivityTimeout.Value();
 
@@ -627,8 +640,16 @@ main(int argc, char* argv[])
 	get_time(&now);
 	comment << get_command_line() << " timestamp: " << now;
 	app_command_line_and_ts = comment.str();
-	logfile << app_command_line_and_ts;
+	logfile << app_command_line_and_ts << endl;
 	logfile << "dot output file at: " << dot_output_fname << endl;
+	if (inactivity_timeout)
+	{
+		logfile << "inactivity timeout set to " << inactivity_timeout << " secs" << endl;
+	}
+	if (max_instructions)
+	{
+		logfile << "maximum instructions to execute set to " << max_instructions << " (" << hex << showbase << max_instructions << ")"  << endl;
+	}
 	
 	// instrument all the things
 	init_traceviz();
