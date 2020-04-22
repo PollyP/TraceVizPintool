@@ -23,6 +23,14 @@
 #ifndef INTERESTINGROUTINES_H
 #define INTERESTINGROUTINES_H
 
+#include "pin.H"
+
+namespace WINDOWS
+{
+#include <Windows.h>
+}
+
+
 using namespace std;
 
 // we'd like to do some extra processing on "interesting routines."

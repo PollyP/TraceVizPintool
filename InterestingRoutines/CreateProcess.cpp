@@ -1,4 +1,5 @@
 
+
 /***
 	Copyright 2020 P.S.Powledge
 
@@ -37,11 +38,11 @@ namespace WINDOWS
 #include "../Utils.h"
 #include "InterestingRoutines.h"
 #include "../TraceViz.h"
-#include "../DotGenerator2.h"
+#include "../OutputManager.h"
 
 extern ImageDataMap image_map;
 extern RoutineStateInfo interesting_routines_state_info;
-extern DotGenerator2 *dotgen;
+extern OutputManagerPtr output_manager;
 extern ADDRINT last_main_instr;
 extern vector<SectionDataPtr> section_data;
 
@@ -103,12 +104,11 @@ createprocess_return_processing(int tid, CreateProcessRoutinePtr state_info_ptr,
 	stringstream line3;
 	line3 << "returned " << hex << showbase << ret_code;
 	inputs.push_back(line3.str());
-	string details = DotGenerator2::formatDetailsLines(inputs);
 
 	// log all this info
-	logfile << "[interesting_routines_processing] " << details << endl;
-	logfile << "; branch/call to library routine (via interesting routines) libcall: " << symbol_name << " tid: " << tid << details << endl;
+	logfile << "[interesting_routines_processing] " << line1 << " " << line2 << " " << line3 << endl;
+	logfile << "; branch/call to library routine (via interesting routines) libcall: " << symbol_name << " tid: " << tid << " " << line1 << " " << line2 << " " << line3 << endl;
 
-	dotgen->addNewLibCall(tid, symbol_name, source_image, section_idx, funcaddr, StringFromAddrint(calling_address), details);
+	output_manager->addNewLibCall(tid, symbol_name, source_image, section_idx, funcaddr, StringFromAddrint(calling_address), inputs);
 }
 

@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CSVGenerator.cpp" />
     <ClCompile Include="DotGenerator2.cpp" />
     <ClCompile Include="InterestingRoutines\CreateProcess.cpp" />
     <ClCompile Include="InterestingRoutines\GetProcAddress.cpp" />
@@ -26,12 +27,15 @@
     <ClCompile Include="InterestingRoutines\LoadLibrary.cpp" />
     <ClCompile Include="InterestingRoutines\ShellExecute.cpp" />
     <ClCompile Include="InterestingRoutines\URLDownloadToFile.cpp" />
+    <ClCompile Include="OutputManager.cpp" />
     <ClCompile Include="TraceViz.cpp" />
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CSVGenerator.h" />
     <ClInclude Include="DotGenerator2.h" />
     <ClInclude Include="InterestingRoutines\InterestingRoutines.h" />
+    <ClInclude Include="OutputManager.h" />
     <ClInclude Include="TraceViz.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>

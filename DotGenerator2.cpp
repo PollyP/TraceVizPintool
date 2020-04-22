@@ -68,7 +68,7 @@ string Section2Color::getColor(int section_idx)
  *                                                                                                                                *
 /*********************************************************************************************************************************/
 
-ostream& operator<<(ostream& os, const NodeItem& n)
+ostream& operator<<(ostream& os, const DotNodeItem& n)
 {
 	os <<  " nodeid: " << n.nodeid << " label " << n.label << " color: " << n.color ;
 	return os;
@@ -80,12 +80,12 @@ ostream& operator<<(ostream& os, const NodeItem& n)
  *                                                                                                                                *
 /*********************************************************************************************************************************/
 
-NodeManager::NodeManager()
+DotNodeManager::DotNodeManager()
 {
 	this->node_counter = 0;
 }
 
-NodeManager::~NodeManager()
+DotNodeManager::~DotNodeManager()
 {
 	this->node_counter = 0;
 
@@ -97,7 +97,7 @@ NodeManager::~NodeManager()
 	}
 }
 
-vector<int> NodeManager::getTids()
+vector<int> DotNodeManager::getTids()
 {
 	vector<int> ret;
 	for (map<int, string>::iterator it = this->tidlist.begin(); it != this->tidlist.end(); ++it)
@@ -108,34 +108,33 @@ vector<int> NodeManager::getTids()
 	return ret;
 }
 
-void NodeManager::addNode(NodeItemPtr n)
+void DotNodeManager::addNode(DotNodeItemPtr n)
 {
 	this->tidlist[n->tid] = "";
 	this->node_map[this->node_counter] = n;
 	this->node_counter++;
-	//fprintf(stderr, "node counter = %d\n", this->node_counter);
 }
 
-vector<NodeItemPtr> NodeManager::getNodes()
+vector<DotNodeItemPtr> DotNodeManager::getNodes()
 {
-	vector<NodeItemPtr> ret;
+	vector<DotNodeItemPtr> ret;
 
-	for (pair<int, NodeItemPtr> element : this->node_map)
+	for (pair<int, DotNodeItemPtr> element : this->node_map)
 	{
-		NodeItemPtr n = element.second;
+		DotNodeItemPtr n = element.second;
 		ret.push_back(n);
 	}
 	return ret;
 }
 
-vector<NodeItemPtr> NodeManager::getNodesForTid(int tid)
+vector<DotNodeItemPtr> DotNodeManager::getNodesForTid(int tid)
 {
-	vector<NodeItemPtr> ret;
+	vector<DotNodeItemPtr> ret;
 
-	for (pair<int, NodeItemPtr> element : this->node_map)
+	for (pair<int, DotNodeItemPtr> element : this->node_map)
 	{
 		int node_idx = element.first;
-		NodeItemPtr n = element.second;
+		DotNodeItemPtr n = element.second;
 
 		// does this node come from this tid?
 		if (n->tid != tid)
@@ -148,19 +147,19 @@ vector<NodeItemPtr> NodeManager::getNodesForTid(int tid)
 	return ret;
 }
 
-vector<pair<NodeItemPtr,NodeItemPtr>> NodeManager::getNodesThatJumpTids()
+vector<pair<DotNodeItemPtr,DotNodeItemPtr>> DotNodeManager::getNodesThatJumpTids()
 {
-	vector<pair<NodeItemPtr,NodeItemPtr>> ret;
-	for (pair<int, NodeItemPtr> kv : this->node_map)
+	vector<pair<DotNodeItemPtr,DotNodeItemPtr>> ret;
+	for (pair<int, DotNodeItemPtr> kv : this->node_map)
 	{
 		int i = kv.first;
-		NodeItemPtr n = kv.second;
+		DotNodeItemPtr n = kv.second;
 		if (this->node_map.find(i + 1) != this->node_map.end())
 		{
-			NodeItemPtr nextnode = this->node_map[i + 1];
+			DotNodeItemPtr nextnode = this->node_map[i + 1];
 			if (n->tid != nextnode->tid)
 			{
-				pair<NodeItemPtr, NodeItemPtr> apair = { n, nextnode };
+				pair<DotNodeItemPtr, DotNodeItemPtr> apair = { n, nextnode };
 				ret.push_back(apair);
 			}
 		}
@@ -169,7 +168,7 @@ vector<pair<NodeItemPtr,NodeItemPtr>> NodeManager::getNodesThatJumpTids()
 	return ret;
 }
 
-NodeItemPtr NodeManager::getPlaceholderNode(int tid, int node_idx)
+DotNodeItemPtr DotNodeManager::getPlaceholderNode(int tid, int node_idx)
 {
 	// build unique node id
 	stringstream ss;
@@ -177,7 +176,7 @@ NodeItemPtr NodeManager::getPlaceholderNode(int tid, int node_idx)
 
 	// create the nodeitem
 	// heap management is in class dtor
-	NodeItemPtr ret = new NodeItem(tid, ss.str(), "placeholder", "red");
+	DotNodeItemPtr ret = new DotNodeItem(tid, ss.str(), "placeholder", "red");
 	ret->isplaceholder = true;
 
 	// add the placeholder node on a list so we can reclaim the heap
@@ -186,7 +185,7 @@ NodeItemPtr NodeManager::getPlaceholderNode(int tid, int node_idx)
 	return ret;
 }
 
-ostream& operator<<(ostream& os, NodeManager& nm)
+ostream& operator<<(ostream& os, DotNodeManager& nm)
 {
 	os << "nm state:\n";
 	os << "\tnode counter: " << nm.node_counter << "\n";
@@ -195,7 +194,7 @@ ostream& operator<<(ostream& os, NodeManager& nm)
 	for (auto t : tids)
 	{
 		os << "\ttid = " << t << "\n";
-		vector<NodeItemPtr> nodes = nm.getNodesForTid(t);
+		vector<DotNodeItemPtr> nodes = nm.getNodesForTid(t);
 		for (auto n : nodes)
 		{
 			os << "\t\t" << *n << "\n";
@@ -210,7 +209,7 @@ ostream& operator<<(ostream& os, NodeManager& nm)
  *                                                                                                                                *
 /*********************************************************************************************************************************/
 
-DotGenerator2::DotGenerator2(const char * fname, const char *comment)
+DotGenerator::DotGenerator(const char * fname, const char *comment)
 {
 	this->fname = fname;
 	this->file_output.open(this->fname.c_str(), ios::out | ios::trunc);
@@ -220,7 +219,7 @@ DotGenerator2::DotGenerator2(const char * fname, const char *comment)
 		return;
 	}
 
-	this->node_manager = new NodeManager();
+	this->node_manager = new DotNodeManager();
 	assert(this->node_manager != NULL);
 
 	this->sections2colors = Section2Color::getInstance();
@@ -234,13 +233,13 @@ DotGenerator2::DotGenerator2(const char * fname, const char *comment)
 	this->file_output << endl;
 }
 
-DotGenerator2::~DotGenerator2()
+DotGenerator::~DotGenerator()
 {
 	// finish writing output file
 	this->closeOutputFile();
 
 	// clean up heap'ed memory
-	vector<NodeItemPtr> nodes = this->node_manager->getNodes();
+	vector<DotNodeItemPtr> nodes = this->node_manager->getNodes();
 	for (auto n : nodes)
 	{
 		delete n;
@@ -250,7 +249,7 @@ DotGenerator2::~DotGenerator2()
 	delete this->node_manager;
 }
 
-void DotGenerator2::addNewImage(int tid, string imgname, int secidx, ADDRINT start_address )
+void DotGenerator::addNewImage(int tid, string imgname, int secidx, ADDRINT start_address )
 {
 	// build a unique node id
 	string node_id = this->buildNodeId(tid);
@@ -264,12 +263,12 @@ void DotGenerator2::addNewImage(int tid, string imgname, int secidx, ADDRINT sta
 	string label = ss2.str();
 
 	// turn this into a node and add it to our nodemanager
-	NodeItemPtr n = new NodeItem(tid, node_id, label, "lightgray");
+	DotNodeItemPtr n = new DotNodeItem(tid, node_id, label, "lightgray");
 	assert(n != NULL);
 	this->addImageLoadNode(n);
 }
 
-void DotGenerator2::addNewLibCall(int tid, string symbol, string imgname, int secidx, ADDRINT addr, string calling_address, string details)
+void DotGenerator::addNewLibCall(int tid, string symbol, string imgname, int secidx, ADDRINT addr, string calling_address, string details)
 {
 	// if there's a lot of text, make the node larger
 	bool needsLargeNode = false;
@@ -295,7 +294,7 @@ void DotGenerator2::addNewLibCall(int tid, string symbol, string imgname, int se
 	string color = this->sections2colors->getColor(secidx);
 
 	// turn this into a node and add it to our nodemanager
-	NodeItemPtr n = new NodeItem(tid, node_id, label, color);
+	DotNodeItemPtr n = new DotNodeItem(tid, node_id, label, color);
 	assert(n != NULL);
 	if (needsLargeNode)
 	{
@@ -307,7 +306,7 @@ void DotGenerator2::addNewLibCall(int tid, string symbol, string imgname, int se
 	}
 }
 
-string DotGenerator2::formatDetailsLines(vector<string> input_strings)
+string DotGenerator::formatDetailsLines(vector<string> input_strings)
 {
 	stringstream ss;
 	for (auto is : input_strings)
@@ -317,7 +316,7 @@ string DotGenerator2::formatDetailsLines(vector<string> input_strings)
 	return ss.str();
 }
 
-void DotGenerator2::closeOutputFile()
+void DotGenerator::closeOutputFile()
 {
 
 	if (this->file_output.is_open())
@@ -329,14 +328,14 @@ void DotGenerator2::closeOutputFile()
 	}
 }
 
-void DotGenerator2::buildClusters()
+void DotGenerator::buildClusters()
 {
 	// for every thread we saw ...
 	vector<int> tids = this->node_manager->getTids();
 	for (const auto tid : tids)
 	{
 		// get the nodes associated with that thread
-		vector<NodeItemPtr> nodes = this->node_manager->getNodesForTid(tid);
+		vector<DotNodeItemPtr> nodes = this->node_manager->getNodesForTid(tid);
 		if (nodes.size() == 0)
 		{
 			continue;
@@ -382,7 +381,7 @@ void DotGenerator2::buildClusters()
 
 	// is the application multithreaded? If so make the various threads line us nicely in the output
 	// by building links for each node in thread x that is followed by a node in thread y
-	vector<pair<NodeItemPtr,NodeItemPtr>> jumppairs = this->node_manager->getNodesThatJumpTids();
+	vector<pair<DotNodeItemPtr,DotNodeItemPtr>> jumppairs = this->node_manager->getNodesThatJumpTids();
 	if ( jumppairs.size() > 0 )
 	{
 		this->file_output << "\n\n\t# thread jumps" << endl;
@@ -399,7 +398,7 @@ void DotGenerator2::buildClusters()
 }
 
 // build a unique node id
-string DotGenerator2::buildNodeId(int tid)
+string DotGenerator::buildNodeId(int tid)
 {
 	stringstream ss;
 	ss << "cluster_" << tid << "_node_" << this->node_manager->node_counter;
@@ -407,28 +406,28 @@ string DotGenerator2::buildNodeId(int tid)
 }
 
 // write this node to file output and add it to the node manager for later clustering/linking.
-void DotGenerator2::addImageLoadNode(NodeItemPtr n)
+void DotGenerator::addImageLoadNode(DotNodeItemPtr n)
 {
 	this->file_output << "\tnode [label=\"" << n->label << "\", style=\"filled, rounded\", fillcolor=\"" << n->color << "\", height=0.75] " << n->nodeid << ";" << endl;
 	this->node_manager->addNode(n);
 }
 
 // write this node to file output and add it to the node manager for later clustering/linking.
-void DotGenerator2::addLargeLibCallNode(NodeItemPtr n)
+void DotGenerator::addLargeLibCallNode(DotNodeItemPtr n)
 {
 	this->file_output << "\tnode [label=\"" << n->label << "\", style=filled, fillcolor=\"" << n->color << "\", height=1.25] " << n->nodeid << ";" << endl;
 	this->node_manager->addNode(n);
 }
 
 // write this node to file output and add it to the node manager for later clustering/linking.
-void DotGenerator2::addLibCallNode(NodeItemPtr n)
+void DotGenerator::addLibCallNode(DotNodeItemPtr n)
 {
 	this->file_output << "\tnode [label=\"" << n->label << "\", style=filled, fillcolor=\"" << n->color << "\", height=1.0] " << n->nodeid << ";" << endl;
 	this->node_manager->addNode(n);
 }
 
 // dump the state to an ostream
-inline ostream& operator<<(ostream& os, const DotGenerator2& dg)
+inline ostream& operator<<(ostream& os, const DotGenerator& dg)
 {
 	os << "dg state:\n";
 	os << "\tfname: " << dg.fname;

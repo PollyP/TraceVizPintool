@@ -20,121 +20,90 @@
 	SOFTWARE.
 ***/
 
-#ifndef DOTGENERATOR_H
-#define DOTGENERATOR_H
+#ifndef CVSGENERATOR_H
+#define CVSGENERATOR_H
 
 #include <fstream>
 #include <map>
 #include <string>
 #include <vector>
 
+#include "TraceViz.h"
+
 using namespace std;
 
-const int max_imgname_len = 60;
-const int max_symbol_len = 40;
 
 /**********************************************************************************************************************************
  *                                                                                                                                *
- *                                          Section2Color: map section indexes to colors                                          *
+ *                                        CVSNodeItem: class to hold info about nodes                                             *
  *                                                                                                                                *
 /*********************************************************************************************************************************/
 
-class Section2Color;
+class CVSNodeItem;
 
-class Section2Color
-{
-public:
-	static Section2Color* getInstance();
-	string getColor(int sectionId);
-private:
-	static Section2Color* inst;
-	static const string colors[];
-	Section2Color() {};
-};
-typedef Section2Color* Section2ColorPtr;
-
-
-/**********************************************************************************************************************************
- *                                                                                                                                *
- *                                       DotNodeItem: class to hold info about nodes                                              *
- *                                                                                                                                *
-/*********************************************************************************************************************************/
-
-class DotNodeItem;
-
-class DotNodeItem
+class CVSNodeItem
 {
 public:
 	int tid;
-	string nodeid;
+	int secidx;
 	string label;
-	string color;
-	bool isplaceholder;
-	DotNodeItem(int t, string nn, string l, string c) : tid(t), nodeid(nn), label(l), color(c), isplaceholder(false) {};
+	CVSNodeItem(int t, int si, string l ) : tid(t), secidx(si), label(l) {};
 	// default copy constructor / assignment operator
-	friend ostream& operator<<(ostream& out, const DotNodeItem& n);
+	friend ostream& operator<<(ostream& out, const CVSNodeItem& n);
 };
-typedef DotNodeItem* DotNodeItemPtr;
+typedef CVSNodeItem* CVSNodeItemPtr;
 
 /**********************************************************************************************************************************
  *                                                                                                                                *
- *                                           NodeManager: class to manage nodes                                                   *
+ *                                         CVSNodeManager: class to manage nodes                                                  *
  *                                                                                                                                *
 /*********************************************************************************************************************************/
 
-class DotNodeManager
+class CSVNodeManager
 {
 public:
 	int node_counter;
-	map<int, string> tidlist;
-	map<int, DotNodeItemPtr> node_map; // key -> node_counter, value = NodeItemPtr
-	vector<DotNodeItemPtr> placeholder_nodes;
+	map<int, string> tidlist;			// key = tid, value = unused
+	map<int, CVSNodeItemPtr> node_map;	// key -> node_counter, value = CVSNodeItemPtr
 
-	DotNodeManager();
-	~DotNodeManager();
+	CSVNodeManager();
+	~CSVNodeManager();
 	// default copy constructor / assignment operator. Warning: will do a shallow copy of node_map and placeholder_nodes
 	// Warning: class that calls addNode is responsible for heap management of parameter node object
-	void addNode(DotNodeItemPtr n);
+	void addNode(CVSNodeItemPtr n);
 	vector<int> getTids();
-	vector<DotNodeItemPtr> getNodes();
-	vector<DotNodeItemPtr> getNodesForTid(int tid);
-	vector<pair<DotNodeItemPtr, DotNodeItemPtr>> getNodesThatJumpTids();
-	friend ostream& operator<<(ostream& os, const DotNodeManager& n);
-private:
-	DotNodeItemPtr getPlaceholderNode(int tid, int node_idx);
+	vector<CVSNodeItemPtr> getNodes();
+	friend ostream& operator<<(ostream& os, const CSVNodeManager& n);
 };
-typedef DotNodeManager* DotNodeManagerPtr;
+typedef CSVNodeManager* CVSNodeManagerPtr;
 
 /**********************************************************************************************************************************
  *                                                                                                                                *
- *                                  DotGenerator2: class to generate the dot file                                                 *
+ *                                  CVSGenerator: class to generate the dot file                                                 *
  *                                                                                                                                *
 /*********************************************************************************************************************************/
 
-class DotGenerator
+class CSVGenerator
 {
 public:
-	DotNodeManagerPtr node_manager;
+	CVSNodeManagerPtr node_manager;
 	string fname;
 	ofstream file_output;
-	Section2Color* sections2colors;
+	vector<SectionDataPtr> section_info;
 
-	DotGenerator(const char *fname, const char *comment);
-	~DotGenerator();
+	CSVGenerator(const char* fname, const char* comment);
+	~CSVGenerator();
 	// use default copy constructors and assignment operators. Warning: will do a shallow copy of node_manager.
+	void setMainSectionInfo(vector<SectionDataPtr>);
 	void addNewImage(int tid, string imgname, int secidx, ADDRINT start_address);
 	void addNewLibCall(int tid, string symbol, string imgname, int secidx, ADDRINT addr, string calling_address, string arg = "");
 	static string formatDetailsLines(vector<string> input_strings);
 	void closeOutputFile();
-	friend ostream& operator<<(ostream& out, DotGenerator& dg);
+	friend ostream& operator<<(ostream& out, CSVGenerator& cg);
 
 private:
-	string buildNodeId(int tid);
-	void addImageLoadNode(DotNodeItemPtr n);
-	void addLargeLibCallNode(DotNodeItemPtr n);
-	void addLibCallNode(DotNodeItemPtr n);
-	void buildClusters();
+	void writeCSVData();
 };
-typedef DotGenerator* DotGeneratorPtr;
+typedef CSVGenerator* CSVGeneratorPtr;
 
 #endif

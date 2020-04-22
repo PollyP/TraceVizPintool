@@ -38,6 +38,7 @@ typedef map<ADDRINT, ImageDataPtr> ImageDataMap;	// key = mapped image low addre
 // keep a list of sections (segments) associated with the main executable
 struct section_data_s
 {
+	string name;
 	ADDRINT start_addr;
 	ADDRINT end_addr;
 };

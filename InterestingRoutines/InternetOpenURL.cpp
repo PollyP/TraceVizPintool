@@ -34,11 +34,11 @@ namespace WINDOWS
 #include "../Utils.h"
 #include "InterestingRoutines.h"
 #include "../TraceViz.h"
-#include "../DotGenerator2.h"
+#include "../OutputManager.h"
 
 extern ImageDataMap image_map;
 extern RoutineStateInfo interesting_routines_state_info;
-extern DotGenerator2* dotgen;
+extern OutputManagerPtr output_manager;
 extern ADDRINT last_main_instr;
 extern vector<SectionDataPtr> section_data;
 
@@ -93,12 +93,11 @@ internetopenurl_return_processing(int tid, InternetOpenURLRoutinePtr state_info_
 	//stringstream line2;
 	//line2 << "returned " << hex << showbase << hModule;
 	//inputs.push_back(line2.str());
-	string details = DotGenerator2::formatDetailsLines(inputs);
 
 	// log all this info
-	logfile << "[interesting_routines_processing] " << details << endl;
-	logfile << "; branch/call to library routine (via interesting routines) libcall: " << symbol_name << " tid: " << tid << details << endl;
+	logfile << "[interesting_routines_processing] " << line1 << endl;
+	logfile << "; branch/call to library routine (via interesting routines) libcall: " << symbol_name << " tid: " << tid << " " << line1 << endl;
 
-	dotgen->addNewLibCall(tid, symbol_name, source_image, section_idx, funcaddr, StringFromAddrint(calling_address), details);
+	output_manager->addNewLibCall(tid, symbol_name, source_image, section_idx, funcaddr, StringFromAddrint(calling_address), inputs);
 }
 

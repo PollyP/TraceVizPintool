@@ -19,11 +19,11 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 	SOFTWARE.
 ***/
+
 #include <fstream>
 #include <map>
 #include <set>
 #include <string>
-
 #include <vector>
 
 #include "pin.H"
@@ -39,16 +39,18 @@ namespace WINDOWS
 
 #include "InterestingRoutines.h"
 #include "TraceViz.h"
-#include "DotGenerator2.h"
+#include "OutputManager.h"
 #include "Utils.h"
 
 using namespace std;
 
 // test options
+KNOB<string> KnobCSVOutputFile(KNOB_MODE_WRITEONCE, "pintool", "csv_filename", "traceviz.csv", "Specify CSV output file name");
+KNOB<string> KnobDotOutputFile(KNOB_MODE_WRITEONCE, "pintool", "dot_filename", "traceviz.gv", "Specify dot output file name");
 KNOB<UINT32> KnobInactivityTimeout(KNOB_MODE_WRITEONCE, "pintool", "inactivity_timeout", "0", "Exit if no instructions are executed for inactivity_timeout seconds. The default value of 0 disables the inactivity timeout.");
 KNOB<UINT32> KnobMaxInstructions(KNOB_MODE_WRITEONCE, "pintool", "max_instructions", "0", "Exit when n number of instructions are executed. The default value of 0 means there is no maximum");
 KNOB<string> KnobLogFile(KNOB_MODE_WRITEONCE, "pintool", "report_filename", "traceviz.log", "Specify tool output file name");
-KNOB<string> KnobOutputFile(KNOB_MODE_WRITEONCE, "pintool", "trace_dot_filename", "traceviz.gv", "Specify dot output file name");
+
 
 // data structures to hold info about instructions that have been instrumented
 struct instrumented_struct
@@ -74,9 +76,10 @@ bool instrument_interesting_routines(string undecfname, RTN rtn);
 void process_interesting_routine_returns(int tid, ADDRINT inst_addr, CONTEXT* ctxt);
 void branchorcall_instruction_analysis(ADDRINT inst_ptr, THREADID tid, ADDRINT target_addr, CONTEXT* ctxt);
 
-DotGenerator2 *dotgen;
+OutputManagerPtr output_manager;
 vector<SectionDataPtr> section_data;
 string app_command_line_and_ts;
+string csv_output_fname = "";
 string dot_output_fname = "";
 ADDRINT last_main_instr = 0x0;
 int last_section_idx = -1;
@@ -93,7 +96,6 @@ set<int> dropped_tids;
 ofstream logfile;
 
 // FIXME: interesting functions processing needs to handle wide api versions
-// fixme interesting return processing does not work with multiple threads
 
 
 /*********************************************************************************************************************************
@@ -108,9 +110,9 @@ ofstream logfile;
  *  - We instrument every branch and call instrument coming from the main image. In the analysis
  *    routine, we filter out the not-taken branches and then look up the target addresses in the
  *    symbol dictionary we created at image-load time. If found AND the symbol does *not* belong to
- *    an "interesting" function with custom processing, we report this call to the DotGenerator class,
- *    which manages to creation of the GraphViz output file. This gets instrumented in the
- *    instrument_instructions() routine.
+ *    an "interesting" function with custom processing, we report this call to the OutputManager class,
+ *    which manages to creation of the output files. This gets instrumented in the  instrument_instructions()
+ *    routine.
  *
  *  - So what about special processing of "interesting" functions? Those are library calls where we want
  *    to gather extra call-specific information, like specific arguments and return values. We do that
@@ -123,14 +125,13 @@ ofstream logfile;
  *    a couple of things:
  *    - First we see if we are at one of the saved return addresses set by the "interesting" routines.
  *      If we are we finish processing the routine (e.g., get the return code) and report the library
- *      call data to the DotGenerator class for rendering. This happens in interesting_routines_processing().
- *    - We dump the disassembly to the log.
- *    This happens in instrument_instructions().
+ *      call data to the OutputManager class for rendering. This happens in interesting_routines_processing().
+ *    - We dump the disassembly to the log. This happens in instrument_instructions().
  *
  *    There are a few other routines too. In get_main_section_data(), we instrument image loads
  *    to grab section (segment) data from the main executable. This comes in handy for tracking section hops,
  *    which are color coded in the dot output. We trap out of memory exceptions and log it and die if we get
- *    one. And we have a fini routine that finishes writing the dot output file when the application exits,
+ *    one. And we have a fini routine that finishes writing the output files when the application exits,
  *    the inactivity timeout is triggered, or if the user ^Cs out.
  *
  *********************************************************************************************************************************/
@@ -151,7 +152,8 @@ init_traceviz()
 		create_inactivity_monitor_thread();
 	}
 
-	dotgen = new DotGenerator2(dot_output_fname.c_str(), app_command_line_and_ts.c_str() );
+	output_manager = OutputManager::getInstance();
+	output_manager->setFilenames(csv_output_fname, dot_output_fname, app_command_line_and_ts);
 }
 
 static void create_inactivity_monitor_thread() {
@@ -252,6 +254,7 @@ void get_main_section_data(IMG img, void *v)
 		{
 			string sec_type = sec_type_to_string(SEC_Type(sec));
 			SectionDataPtr s = new SectionData();
+			s->name = SEC_Name(sec);
 			s->start_addr = SEC_Address(sec);
 			s->end_addr = SEC_Address(sec) + SEC_Size(sec);
 			section_data.push_back(s);
@@ -259,6 +262,7 @@ void get_main_section_data(IMG img, void *v)
 			logfile << "Name: " << SEC_Name(sec) << " type: " << sec_type << " start address: " << s->start_addr << " end address: " << s->end_addr << endl;
 			// FIXME what about sections that are added post image load?
 		}
+		output_manager->setMainSectionInfo(section_data);
 		logfile << "End of main sections" << endl;
 	}
 }
@@ -268,7 +272,7 @@ log_image_loads(IMG img, void* v)
 {
 	// note: it is possible for image to be split up. in that case highaddress means last byte of the text segment
 	logfile << "\n[Log_image_loads]\nLoading " << IMG_Name(img) << endl;
-	logfile << "\tImage id = " << IMG_Id(img) << " start address: " << hex << showbase << IMG_LowAddress(img) << " end address: " << IMG_HighAddress(img) << hex << showbase << endl;
+	logfile << "\tImage id = " << IMG_Id(img) << " start address: " << hex << showbase << IMG_LowAddress(img) << " end address: " << IMG_HighAddress(img)  << endl;
 	// FIXME capture unloads and reclaim heap when cleaning up this list?
 
 	// store image info in our image_map
@@ -278,8 +282,8 @@ log_image_loads(IMG img, void* v)
 	ADDRINT key = IMG_LowAddress(img);
 	image_map[key] = image_data_ptr;
 
-	// pass the image load data to the dot generator
-	dotgen->addNewImage(0, image_data_ptr->name, 0, key);
+	// pass the image load data to the output generator
+	output_manager->addNewImage(0, image_data_ptr->name, 0x0, key);
 	image_load_counter++;
 	logfile << "\nend log_image_loads" << endl;
 }
@@ -365,7 +369,7 @@ process_interesting_routine_returns(int tid, ADDRINT inst_addr, CONTEXT* ctxt)
 	}
 
 	// yes, we are at the return address of a "interesting routines" call
-	logfile << "process_interesting_routine_returns " << hex << showbase << inst_addr << " tid: " << tid << " stored tid: " << state_info_ptr->tid << endl;
+	logfile << "process_interesting_routine_returns " << hex << showbase << inst_addr << " tid: " << dec << tid << " stored tid: " << state_info_ptr->tid << endl;
 	SymbolPtr s_ptr = NULL;
 	if (trace_dot_symbols.count(state_info_ptr->funcaddr) > 0)
 	{
@@ -468,7 +472,7 @@ instruction_analysis(ADDRINT inst_addr, THREADID tid, CONTEXT* ctxt)
 	}
 
 	// log the instruction address, thread id, section index, symbol (if found), and disassembly
-	logfile << "[Analysis] " << hex << showbase << inst_addr << "\t" << tid << "\t" << last_section_idx << "\t" << s << "\t" << dis << endl;
+	logfile << "[Analysis] " << hex << showbase << inst_addr << "\t" << dec << tid << "\t" << last_section_idx << "\t" << s << "\t" << dis << endl;
 }
 
 static void
@@ -529,11 +533,11 @@ branchorcall_instruction_analysis(ADDRINT inst_addr, THREADID tid, ADDRINT targe
 
 		// log the branch/call symbol, target image, target address and thread id
 		int section_idx = addr_to_section_idx(inst_addr);
-		logfile << "; branch/call to library routine " << sym << " in " << src_img << " address: " << target_addr << " tid: " << tid << endl;
+		logfile << "; branch/call to library routine " << sym << " in " << src_img << " address: " << hex << showbase << target_addr << " tid: " << dec << tid << endl;
 
-
-		// add a new node to the dot output
-		dotgen->addNewLibCall(tid, sym, src_img, section_idx, target_addr, StringFromAddrint(last_main_instr),"");
+		// add a new node to the output
+		vector<string> details;
+		output_manager->addNewLibCall(tid, sym, src_img, section_idx, target_addr, StringFromAddrint(last_main_instr),details);
 	}
 }
 
@@ -588,7 +592,7 @@ void fini(int, void*)
 {
 	logfile << "Total number of instructions executed: " << dec << instruction_counter << " (" << hex << showbase << instruction_counter << ")" << endl;
 	logfile << "Exiting application" << endl;
-	dotgen->closeOutputFile();
+	output_manager->closeOutputFile();
 }
 
 /**********************************************************************************************************************************
@@ -621,8 +625,11 @@ main(int argc, char* argv[])
 	// get the inactivity timeout value
 	inactivity_timeout = KnobInactivityTimeout.Value();
 
+	// get the name of the csv output file
+	csv_output_fname = KnobCSVOutputFile.Value();
+
 	// get the name of the dot output file
-	dot_output_fname = KnobOutputFile.Value();
+	dot_output_fname = KnobDotOutputFile.Value();
 
 	// open the log file
 	logfile.open(KnobLogFile.Value().c_str(), ios::out | ios::trunc);
