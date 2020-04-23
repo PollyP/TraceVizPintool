@@ -25,7 +25,7 @@ You will need to install Intel Pintools. Then clone this repo.
 
 To run TraceVizPintool:
 
-<path to intel pintools folder>\ia32\bin\pin.exe -t <path to repo>\Debug\TraceVizPintool.dll -- <path to executable to be traced>
+```<path to intel pintools folder>\ia32\bin\pin.exe -t <path to repo>\Debug\TraceVizPintool.dll -- <path to executable to be traced>```
 
 By default, the dot output is in traceviz.gv, the csv files is in traceviz.csv, and the log output is in traceviz.log.
 
