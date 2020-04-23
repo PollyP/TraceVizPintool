@@ -40,9 +40,9 @@ class OutputManager;
 class OutputManager
 {
 public:
+	// singleton class
 	static OutputManager* getInstance();
-	// use default copy constructors and assignment operators.
-	void setFilenames(string csv_output_fname, string dot_output_fname, string app_command_line_and_ts);
+	void initialize(string csv_output_fname, string dot_output_fname, string app_command_line_and_ts);
 	void setMainSectionInfo(vector<SectionDataPtr>);
 	void addNewImage(int tid, string imgname, int secidx, ADDRINT start_address);
 	void addNewLibCall(int tid, string symbol, string imgname, int secidx, ADDRINT addr, string calling_address, vector<string> details);

@@ -37,7 +37,7 @@ extern ofstream logfile;
 
 /**********************************************************************************************************************************
  *                                                                                                                                *
- *                                          Section2Color: map section indexes to colors                                          *
+ *                                     OutputManager: manage DotGenerator and CSVGenerator classes                                *
  *                                                                                                                                *
 /*********************************************************************************************************************************/
 
@@ -62,7 +62,7 @@ OutputManager::~OutputManager()
 	if (this->dotgen) delete this->dotgen;
 }
 
-void OutputManager::setFilenames(string csv_output_fname, string dot_output_fname, string app_command_line_and_ts)
+void OutputManager::initialize(string csv_output_fname, string dot_output_fname, string app_command_line_and_ts)
 {
 	this->csvgen = new CSVGenerator(csv_output_fname.c_str(), app_command_line_and_ts.c_str());
 	assert(this->csvgen != NULL);
