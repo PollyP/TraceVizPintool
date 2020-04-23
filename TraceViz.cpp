@@ -51,7 +51,6 @@ KNOB<UINT32> KnobInactivityTimeout(KNOB_MODE_WRITEONCE, "pintool", "inactivity_t
 KNOB<UINT32> KnobMaxInstructions(KNOB_MODE_WRITEONCE, "pintool", "max_instructions", "0", "Exit when n number of instructions are executed. The default value of 0 means there is no maximum");
 KNOB<string> KnobLogFile(KNOB_MODE_WRITEONCE, "pintool", "report_filename", "traceviz.log", "Specify tool output file name");
 
-
 // data structures to hold info about instructions that have been instrumented
 struct instrumented_struct
 {
@@ -89,7 +88,8 @@ int inactivity_timeout = 0;
 UINT64 max_instructions = 0;
 
 // xdot does not know what to do with lots of clusters (which is how threads are represented). so drop threads > max_threads to keep the output diagram readable
-const int max_threads = 10;
+const int max_threads = 5;
+set<int> tracing_tids;
 set<int> dropped_tids;
 
 // logging file
@@ -153,7 +153,7 @@ init_traceviz()
 	}
 
 	output_manager = OutputManager::getInstance();
-	output_manager->setFilenames(csv_output_fname, dot_output_fname, app_command_line_and_ts);
+	output_manager->initialize(csv_output_fname, dot_output_fname, app_command_line_and_ts);
 }
 
 static void create_inactivity_monitor_thread() {
@@ -183,8 +183,15 @@ void inactivity_monitor_thread(void* v) {
 
 bool should_drop_this_thread(int tid)
 {
-	return false;
-	if (tid > max_threads)
+	//logfile << "drop: tracing tids size " << tracing_tids.size() << endl;
+	if (tracing_tids.find(tid) != tracing_tids.end())
+	{
+		// this tid already being traced
+		return false;
+	}
+
+	// tid not being traced and there's no room for it
+	if (tracing_tids.size() > max_threads)
 	{
 		if (dropped_tids.find(tid) != dropped_tids.end())
 		{
@@ -195,6 +202,9 @@ bool should_drop_this_thread(int tid)
 		logfile << "dropping instruction flow on thread " << tid << endl;
 		return true;
 	}
+
+	// tid is not being traced, but there's room for it, so add it
+	tracing_tids.insert(tid);
 	return false;
 }
 
@@ -649,6 +659,7 @@ main(int argc, char* argv[])
 	app_command_line_and_ts = comment.str();
 	logfile << app_command_line_and_ts << endl;
 	logfile << "dot output file at: " << dot_output_fname << endl;
+	logfile << "csv output file at: " << csv_output_fname << endl;
 	if (inactivity_timeout)
 	{
 		logfile << "inactivity timeout set to " << inactivity_timeout << " secs" << endl;
