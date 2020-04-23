@@ -38,7 +38,6 @@ const string escaped_quote_str = R"(\")";
 
 extern ofstream logfile;
 extern string get_filename(string pathplusfname);
-//extern string truncate_string(string inputs, int new_length);;
 extern void find_and_replace_all(string& data, string replacee, string replacer);
 
 /**********************************************************************************************************************************
@@ -119,7 +118,7 @@ ostream& operator<<(ostream& os, CSVNodeManager& nm)
 
 /**********************************************************************************************************************************
  *                                                                                                                                *
- *                                  CSVGenerator: class to generate the dot file                                                 *
+ *                              CSVGenerator: class to generate a comma separated file                                            *
  *                                                                                                                                *
 /*********************************************************************************************************************************/
 
@@ -167,7 +166,7 @@ void CSVGenerator::addNewImage(int tid, string imgname, int secidx, ADDRINT star
 	string filename = get_filename(imgname);
 	find_and_replace_all(imgname, "\\", "\\\\");
 	stringstream ss2;
-	ss2 << "image load: mapped " << filename << " to " << hex << showbase << start_address << "\\nfull path: " << imgname << "\\n";
+	ss2 << "image load: mapped " << filename << " to " << hex << showbase << start_address << "\nfull path: " << imgname << "\n";
 	string label = ss2.str();
 
 	// turn this into a node and add it to our nodemanager
@@ -182,7 +181,7 @@ void CSVGenerator::addNewLibCall(int tid, string symbol, string imgname, int sec
 	string filename = get_filename(imgname);
 	find_and_replace_all(imgname, "\\", "\\\\");
 	stringstream ss2;
-	ss2 << "library call from " << calling_address << " \\n" << symbol << " (" << hex << showbase << addr << ", " << filename << ") \\n" << "full path: " << imgname << " \\n";
+	ss2 << "library call from " << calling_address << " \n" << symbol << " (" << hex << showbase << addr << ", " << filename << ") \n" << "full path: " << imgname << "\n";
 	ss2 << details;
 	string label = ss2.str();
 
@@ -197,7 +196,7 @@ string CSVGenerator::formatDetailsLines(vector<string> input_strings)
 	stringstream ss;
 	for (auto is : input_strings)
 	{
-		ss << is << "\\n";
+		ss << is << "\n";
 	}
 	return ss.str();
 }
@@ -251,8 +250,8 @@ void CSVGenerator::writeCSVData()
 					this->file_output << ",";
 				}
 			}
-			this->file_output << endl;
 		}
+		this->file_output << endl;
 	}
 
 	// write out the section details
