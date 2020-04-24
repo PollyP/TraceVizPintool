@@ -1,5 +1,5 @@
 # TraceVizPintool
-Intel pintool to trace a Windows binary's execution path and create a graphical representation of the library calls, image loads, and instruction source segments.
+Intel pintool to create a graphical representation of a Windows binary's execution flow.
 
 ## What is TraceVizPintool?
 
@@ -9,11 +9,11 @@ Here's an example. We're running TraceVizPintool on a packed malware sample from
 
 ![TraceVizPintool output - overview](https://github.com/PollyP/TraceVizPintool/blob/master/examples/lab18-01-overview.png)
 
-The gray boxes are the image loads. The pink boxes is the unpacking code, executing out of one segment. Here's a close-up:
+The gray boxes are image loads. The pink boxes shows the unpacking code, executing out of one segment. Here's a close-up:
 
 ![TraceVizPintool output - unpacker detail](https://github.com/PollyP/TraceVizPintool/blob/master/examples/lab18-01-detail-01.png)
 
-Now we switch to yellow boxes; this means we are now executing instructions from a different section. This is a "section hop," and in this case it means we have finished unpacking and are now executing the payload. Here's a close-up:
+Now we switch to yellow boxes; this means we are now executing instructions from a different section. This is a section hop, and in this case it means we have finished unpacking and are now executing the payload. Here's a close-up:
 
 ![TraceVizPintool output - payload detail](https://github.com/PollyP/TraceVizPintool/blob/master/examples/lab18-01-detail-02.png)
 
